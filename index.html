@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programación del Equipo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F7F8FC;
+    --surface: #FFFFFF;
+    --border: #E5E8F0;
+    --text-primary: #111827;
+    --text-secondary: #6B7280;
+    --text-muted: #9CA3AF;
+    --casa-bg: #ECFDF5;
+    --casa-text: #065F46;
+    --casa-border: #A7F3D0;
+    --sede-bg: #EFF6FF;
+    --sede-text: #1E40AF;
+    --sede-border: #BFDBFE;
+    --accent: #4F46E5;
+    --accent-light: #EEF2FF;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.04);
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 40px 24px 80px;
+  }
+
+  /* HEADER */
+  header {
+    max-width: 960px;
+    margin: 0 auto 40px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .header-left h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    color: var(--text-primary);
+  }
+
+  .header-left p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    font-weight: 400;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: 1px solid transparent;
+    font-family: inherit;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover { background: #4338CA; }
+
+  .btn-ghost {
+    background: var(--surface);
+    color: var(--text-secondary);
+    border-color: var(--border);
+  }
+  .btn-ghost:hover { background: var(--bg); color: var(--text-primary); }
+
+  /* LEGEND */
+  .legend {
+    max-width: 960px;
+    margin: 0 auto 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .legend-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-right: 4px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid transparent;
+  }
+
+  .badge-casa { background: var(--casa-bg); color: var(--casa-text); border-color: var(--casa-border); }
+  .badge-sede { background: var(--sede-bg); color: var(--sede-text); border-color: var(--sede-border); }
+
+  .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .dot-casa { background: #10B981; }
+  .dot-sede { background: #3B82F6; }
+
+  /* WEEK CARD */
+  .week-card {
+    max-width: 960px;
+    margin: 0 auto 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .week-card:hover { box-shadow: var(--shadow-md); }
+
+  .week-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg);
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .week-title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .week-number {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    background: var(--accent-light);
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .week-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .week-date-input {
+    font-size: 12px;
+    color: var(--text-secondary);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    padding: 4px 8px;
+    background: transparent;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .week-date-input:hover {
+    border-color: var(--border);
+    background: var(--surface);
+  }
+  .week-date-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--surface);
+  }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 520px;
+  }
+
+  thead th {
+    padding: 12px 20px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  thead th:not(:first-child) { text-align: center; }
+
+  tbody tr {
+    transition: background 0.1s;
+  }
+  tbody tr:hover { background: #FAFBFF; }
+
+  tbody tr:not(:last-child) td {
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 14px 20px;
+    vertical-align: middle;
+  }
+
+  .day-cell {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    min-width: 110px;
+    white-space: nowrap;
+  }
+
+  .day-cell .day-name { font-weight: 600; }
+  .day-cell .day-num {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  .schedule-cell {
+    text-align: center;
+    min-width: 140px;
+  }
+
+  .cell-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* LOCATION SELECT */
+  .loc-select {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+    outline: none;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .loc-select.casa {
+    background: var(--casa-bg);
+    color: var(--casa-text);
+    border: 1px solid var(--casa-border);
+  }
+  .loc-select.sede {
+    background: var(--sede-bg);
+    color: var(--sede-text);
+    border: 1px solid var(--sede-border);
+  }
+  .loc-select:hover { filter: brightness(0.96); }
+  .loc-select:focus { box-shadow: 0 0 0 2px var(--accent); }
+
+  /* TIME INPUT */
+  .time-input {
+    font-size: 11px;
+    color: var(--text-muted);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    padding: 3px 7px;
+    font-family: inherit;
+    text-align: center;
+    background: transparent;
+    transition: all 0.15s;
+    width: 90px;
+  }
+  .time-input:hover {
+    border-color: var(--border);
+    color: var(--text-secondary);
+    background: var(--bg);
+  }
+  .time-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--surface);
+    color: var(--text-primary);
+  }
+  .time-input::placeholder { color: var(--text-muted); }
+
+  /* ADD WEEK BUTTON */
+  .add-week-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .btn-add-week {
+    width: 100%;
+    padding: 14px;
+    background: var(--surface);
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius-lg);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: inherit;
+  }
+  .btn-add-week:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  /* MEMBER COLUMNS */
+  .member-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .av-j { background: #8B5CF6; }
+  .av-a { background: #F59E0B; }
+  .av-m { background: #EC4899; }
+
+  /* MEMBER HEADER EDITABLE */
+  .member-name-input {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    text-align: center;
+    cursor: text;
+    outline: none;
+    width: 90px;
+    transition: color 0.15s;
+  }
+  .member-name-input:hover { color: var(--text-primary); }
+  .member-name-input:focus { color: var(--text-primary); border-bottom: 1px solid var(--accent); }
+
+  /* DELETE WEEK */
+  .btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 16px;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    transition: all 0.15s;
+    line-height: 1;
+    font-family: inherit;
+  }
+  .btn-delete:hover { color: #EF4444; background: #FEF2F2; }
+
+  /* ADD MEMBER */
+  .btn-add-member {
+    background: none;
+    border: 1px dashed var(--border);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .btn-add-member:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: var(--text-primary);
+    color: white;
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.25s ease;
+    pointer-events: none;
+    z-index: 1000;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 600px) {
+    body { padding: 20px 12px 60px; }
+    .week-header { padding: 12px 16px; }
+    td, th { padding: 10px 14px; }
+    .week-title { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>Programación del Equipo</h1>
+    <p id="subtitle">Semanas de junio 2025</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-ghost" onclick="exportData()">↓ Exportar</button>
+    <button class="btn btn-primary" onclick="showToast('Guardado correctamente ✓')">Guardar</button>
+  </div>
+</header>
+
+<div class="legend">
+  <span class="legend-label">Modalidad</span>
+  <span class="badge badge-casa"><span class="dot dot-casa"></span>Casa</span>
+  <span class="badge badge-sede"><span class="dot dot-sede"></span>Sede</span>
+</div>
+
+<div id="weeks-container"></div>
+
+<div class="add-week-wrap">
+  <button class="btn-add-week" onclick="addWeek()">+ Agregar semana</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const COLORS = ['#8B5CF6','#F59E0B','#EC4899','#10B981','#3B82F6','#F97316','#06B6D4'];
+const DAYS = ['Lunes','Martes','Miércoles','Jueves','Viernes'];
+
+let state = {
+  members: ['Juank','Ana Karina','Maria'],
+  weeks: [
+    {
+      id: 1,
+      label: 'Primera semana',
+      dates: '09 - 12 jun',
+      schedule: {
+        'Lunes':     ['Casa','Casa','Sede'],
+        'Martes':    ['Casa','Casa','Sede'],
+        'Miércoles': ['Casa','Sede','Casa'],
+        'Jueves':    ['Casa','Sede','Casa'],
+        'Viernes':   ['Sede','Casa','Casa'],
+      },
+      times: {
+        'Lunes':     ['','',''],
+        'Martes':    ['','',''],
+        'Miércoles': ['','',''],
+        'Jueves':    ['','',''],
+        'Viernes':   ['','',''],
+      }
+    },
+    {
+      id: 2,
+      label: 'Segunda semana',
+      dates: '15 - 19 jun',
+      schedule: {
+        'Lunes':     ['Sede','Casa','Casa'],
+        'Martes':    ['Casa','Casa','Sede'],
+        'Miércoles': ['Casa','Sede','Sede'],
+        'Jueves':    ['Casa','Sede','Casa'],
+        'Viernes':   ['Sede','Casa','Casa'],
+      },
+      times: {
+        'Lunes':     ['7:30 - 5:00','7:00 - 4:30','7:00 - 4:30'],
+        'Martes':    ['7:30 - 4:30','7:00 - 4:00','7:00 - 4:00'],
+        'Miércoles': ['7:30 - 5:00','7:00 - 4:30','7:00 - 4:30'],
+        'Jueves':    ['7:30 - 5:00','7:00 - 4:30','7:00 - 4:30'],
+        'Viernes':   ['7:30 - 5:00','7:00 - 4:30','7:00 - 4:30'],
+      }
+    }
+  ]
+};
+
+let nextId = 3;
+
+function initials(name) {
+  return name.trim().split(/\s+/).map(w => w[0]).join('').toUpperCase().slice(0,2);
+}
+
+function avatarColor(i) {
+  return COLORS[i % COLORS.length];
+}
+
+function renderAll() {
+  const container = document.getElementById('weeks-container');
+  container.innerHTML = '';
+  state.weeks.forEach((week, wi) => container.appendChild(renderWeek(week, wi)));
+}
+
+function renderWeek(week, wi) {
+  const card = document.createElement('div');
+  card.className = 'week-card';
+  card.id = `week-${week.id}`;
+
+  // Header
+  const header = document.createElement('div');
+  header.className = 'week-header';
+
+  const titleGroup = document.createElement('div');
+  titleGroup.className = 'week-title-group';
+
+  const num = document.createElement('span');
+  num.className = 'week-number';
+  num.textContent = `Semana ${wi + 1}`;
+
+  const labelInput = document.createElement('input');
+  labelInput.className = 'week-date-input week-title';
+  labelInput.value = week.label;
+  labelInput.title = 'Editar nombre de semana';
+  labelInput.oninput = e => { week.label = e.target.value; renderNum(); };
+
+  titleGroup.append(num, labelInput);
+
+  const right = document.createElement('div');
+  right.style.cssText = 'display:flex;align-items:center;gap:10px;';
+
+  const dateInput = document.createElement('input');
+  dateInput.className = 'week-date-input';
+  dateInput.value = week.dates;
+  dateInput.placeholder = 'ej. 09 - 12 jun';
+  dateInput.title = 'Editar fechas';
+  dateInput.oninput = e => { week.dates = e.target.value; };
+
+  const delBtn = document.createElement('button');
+  delBtn.className = 'btn-delete';
+  delBtn.title = 'Eliminar semana';
+  delBtn.textContent = '×';
+  delBtn.onclick = () => {
+    if (state.weeks.length === 1) { showToast('Debe quedar al menos una semana'); return; }
+    state.weeks = state.weeks.filter(w => w.id !== week.id);
+    renderAll();
+    showToast('Semana eliminada');
+  };
+
+  right.append(dateInput, delBtn);
+  header.append(titleGroup, right);
+
+  // Table
+  const wrap = document.createElement('div');
+  wrap.className = 'table-wrap';
+
+  const table = document.createElement('table');
+
+  // THEAD
+  const thead = document.createElement('thead');
+  const hrow = document.createElement('tr');
+
+  const dayTh = document.createElement('th');
+  dayTh.textContent = 'Día';
+  hrow.appendChild(dayTh);
+
+  state.members.forEach((mem, mi) => {
+    const th = document.createElement('th');
+    th.innerHTML = '';
+    const mDiv = document.createElement('div');
+    mDiv.className = 'member-header';
+
+    const av = document.createElement('div');
+    av.className = 'avatar';
+    av.style.background = avatarColor(mi);
+    av.textContent = initials(mem);
+
+    const inp = document.createElement('input');
+    inp.className = 'member-name-input';
+    inp.value = mem;
+    inp.title = 'Editar nombre';
+    inp.oninput = e => {
+      const newName = e.target.value;
+      state.members[mi] = newName;
+      av.textContent = initials(newName);
+    };
+
+    mDiv.append(av, inp);
+    th.appendChild(mDiv);
+    hrow.appendChild(th);
+  });
+
+  // Add member th
+  const addTh = document.createElement('th');
+  const addBtn = document.createElement('button');
+  addBtn.className = 'btn-add-member';
+  addBtn.textContent = '+ Miembro';
+  addBtn.onclick = () => addMember();
+  addTh.appendChild(addBtn);
+  hrow.appendChild(addTh);
+
+  thead.appendChild(hrow);
+  table.appendChild(thead);
+
+  // TBODY
+  const tbody = document.createElement('tbody');
+
+  DAYS.forEach((day, di) => {
+    const tr = document.createElement('tr');
+
+    const dayTd = document.createElement('td');
+    dayTd.className = 'day-cell';
+    dayTd.innerHTML = `<div class="day-name">${day}</div>`;
+    tr.appendChild(dayTd);
+
+    if (!week.schedule[day]) week.schedule[day] = state.members.map(() => 'Casa');
+    if (!week.times[day]) week.times[day] = state.members.map(() => '');
+
+    state.members.forEach((_, mi) => {
+      const td = document.createElement('td');
+      td.className = 'schedule-cell';
+
+      const inner = document.createElement('div');
+      inner.className = 'cell-inner';
+
+      const sel = document.createElement('select');
+      sel.className = `loc-select ${(week.schedule[day][mi] || 'Casa').toLowerCase()}`;
+      ['Casa','Sede'].forEach(opt => {
+        const o = document.createElement('option');
+        o.value = opt;
+        o.textContent = opt;
+        if (week.schedule[day][mi] === opt) o.selected = true;
+        sel.appendChild(o);
+      });
+      sel.onchange = e => {
+        week.schedule[day][mi] = e.target.value;
+        sel.className = `loc-select ${e.target.value.toLowerCase()}`;
+      };
+
+      const timeInp = document.createElement('input');
+      timeInp.className = 'time-input';
+      timeInp.placeholder = 'Horario';
+      timeInp.value = week.times[day][mi] || '';
+      timeInp.oninput = e => { week.times[day][mi] = e.target.value; };
+
+      inner.append(sel, timeInp);
+      td.appendChild(inner);
+      tr.appendChild(td);
+    });
+
+    // Empty td for add member column
+    const emptyTd = document.createElement('td');
+    tr.appendChild(emptyTd);
+
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(tbody);
+  wrap.appendChild(table);
+  card.append(header, wrap);
+  return card;
+}
+
+function renderNum() {
+  document.querySelectorAll('.week-number').forEach((el, i) => {
+    el.textContent = `Semana ${i + 1}`;
+  });
+}
+
+function addWeek() {
+  const newId = nextId++;
+  const weekNum = state.weeks.length + 1;
+  const empty = {};
+  const emptyT = {};
+  DAYS.forEach(d => {
+    empty[d] = state.members.map(() => 'Casa');
+    emptyT[d] = state.members.map(() => '');
+  });
+  state.weeks.push({
+    id: newId,
+    label: `Semana ${weekNum}`,
+    dates: '',
+    schedule: empty,
+    times: emptyT
+  });
+  renderAll();
+  document.getElementById(`week-${newId}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  showToast('Nueva semana agregada');
+}
+
+function addMember() {
+  const name = prompt('Nombre del nuevo miembro:');
+  if (!name || !name.trim()) return;
+  state.members.push(name.trim());
+  state.weeks.forEach(week => {
+    DAYS.forEach(day => {
+      if (!week.schedule[day]) week.schedule[day] = [];
+      if (!week.times[day]) week.times[day] = [];
+      week.schedule[day].push('Casa');
+      week.times[day].push('');
+    });
+  });
+  renderAll();
+  showToast(`${name.trim()} agregado al equipo`);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function exportData() {
+  const dataStr = JSON.stringify(state, null, 2);
+  const blob = new Blob([dataStr], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'horario_equipo.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Datos exportados');
+}
+
+// Init
+renderAll();
+</script>
+</body>
+</html>
