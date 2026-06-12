@@ -15,12 +15,22 @@
     --text-primary: #111827;
     --text-secondary: #6B7280;
     --text-muted: #9CA3AF;
+    
+    /* Colores existentes */
     --casa-bg: #ECFDF5;
     --casa-text: #065F46;
     --casa-border: #A7F3D0;
+    
     --sede-bg: #EFF6FF;
     --sede-text: #1E40AF;
     --sede-border: #BFDBFE;
+    
+    /* 🟡 NUEVO: Color para AUSENTE (Rojo Claro) */
+    --ausente-bg: #FEF2F2;      /* Fondo rojo muy suave */
+    --ausente-text: #991B1B;    /* Texto rojo oscuro para contraste */
+    --ausente-border: #FECACA;  /* Borde rojo claro */
+    
+    /* Otros estilos generales */
     --accent: #4F46E5;
     --accent-light: #EEF2FF;
     --radius-sm: 6px;
@@ -28,7 +38,7 @@
     --radius-lg: 16px;
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
     --shadow-md: 0 4px 16px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.04);
-  }
+}
 
   body {
     font-family: 'Inter', system-ui, sans-serif;
@@ -129,10 +139,12 @@
 
   .badge-casa { background: var(--casa-bg); color: var(--casa-text); border-color: var(--casa-border); }
   .badge-sede { background: var(--sede-bg); color: var(--sede-text); border-color: var(--sede-border); }
+  .badge-ausente { background: var(--ausente-bg); color: var(--ausente-text); border-color: var(--ausente-border); }
 
   .dot { width: 6px; height: 6px; border-radius: 50%; }
   .dot-casa { background: #10B981; }
   .dot-sede { background: #3B82F6; }
+  .dot-ausente { background: #EF4444; }
 
   /* WEEK CARD */
   .week-card {
@@ -294,7 +306,6 @@
     color: var(--sede-text);
     border: 1px solid var(--sede-border);
   }
-   }
   .loc-select.ausente {
     background: var(--ausente-bg);
     color: var(--ausente-text);
@@ -477,6 +488,7 @@
   <span class="legend-label">Modalidad</span>
   <span class="badge badge-casa"><span class="dot dot-casa"></span>Casa</span>
   <span class="badge badge-sede"><span class="dot dot-sede"></span>Sede</span>
+  <span class="badge badge-ausente"><span class="dot dot-ausente"></span>Ausente</span>
 </div>
 
 <div id="weeks-container"></div>
@@ -692,14 +704,18 @@ function renderWeek(week, wi) {
       inner.className = 'cell-inner';
 
       const sel = document.createElement('select');
-      sel.className = `loc-select ${(week.schedule[day][mi] || 'Casa').toLowerCase()}`;
-      ['Casa','Sede'].forEach(opt => {
+      const currentValue = week.schedule[day][mi] || 'Casa';
+      sel.className = `loc-select ${currentValue.toLowerCase()}`;
+      
+      // Opciones: Casa, Sede, Ausente
+      ['Casa','Sede','Ausente'].forEach(opt => {
         const o = document.createElement('option');
         o.value = opt;
         o.textContent = opt;
-        if (week.schedule[day][mi] === opt) o.selected = true;
+        if (currentValue === opt) o.selected = true;
         sel.appendChild(o);
       });
+      
       sel.onchange = e => {
         week.schedule[day][mi] = e.target.value;
         sel.className = `loc-select ${e.target.value.toLowerCase()}`;
